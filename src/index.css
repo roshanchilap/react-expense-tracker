@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #ffffff;
+  --text: #0f172a;
+  --card: #f8fafc;
+  --border: #e2e8f0;
+  --primary: #06b6d4;
+}
+
+.dark {
+  --bg: #0f172a;
+  --text: #ffffff;
+  --card: rgba(15, 23, 42, 0.8);
+  --border: #334155;
+  --primary: #22d3ee;
+}
