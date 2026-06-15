@@ -5,6 +5,7 @@ import { useExpenseStore } from "../store/expenseStore";
 import { useEffect } from "react";
 import SortExpense from "./SortExpense";
 import { Moon, Sun } from "lucide-react";
+import ExpenseChart from "./ExpenseChart";
 
 const Header = () => {
   const expenseList = useExpenseStore((state) => state.expenseList);
@@ -170,6 +171,7 @@ const Header = () => {
 
       {/* ✅ LIST */}
       <ExpenseList />
+      <ExpenseChart />
     </div>
   );
 };
