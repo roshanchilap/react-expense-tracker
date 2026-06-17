@@ -32,7 +32,6 @@ const Header = () => {
 
   const isDark = theme === "dark";
 
-  // ✅ THEME STYLES
   const pageText = isDark ? "text-white" : "text-slate-900";
   const subText = isDark ? "text-slate-400" : "text-slate-500";
 
