@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import SortExpense from "./SortExpense";
 import { Moon, Sun } from "lucide-react";
 import ExpenseChart from "./ExpenseChart";
-import { generatePDF } from "../utils/generatePDF";
+import { generatePDF } from "../utils/generatePdf";
 import { getFilteredExpenseList } from "../utils/filterExpenses";
 
 const Header = () => {
