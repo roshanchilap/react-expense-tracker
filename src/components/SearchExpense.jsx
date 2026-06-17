@@ -23,10 +23,10 @@ const SearchExpense = () => {
   const arrowColor = isDark ? "text-slate-400" : "text-slate-500";
 
   return (
-    <div className="flex gap-3">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       {/* ✅ SEARCH INPUT */}
       <input
-        className={`flex-1 rounded-xl border px-4 py-2.5 text-sm transition-all duration-200 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none ${inputStyle}`}
+        className={`w-full flex-1 rounded-xl border px-4 py-2.5 text-sm transition-all duration-200 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none ${inputStyle}`}
         type="text"
         placeholder="Search expense..."
         value={searchTerm}
@@ -34,11 +34,11 @@ const SearchExpense = () => {
       />
 
       {/* ✅ CATEGORY FILTER */}
-      <div className="relative w-32">
+      <div className="relative w-full sm:w-44">
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className={`h-10.5 w-full cursor-pointer appearance-none rounded-xl border px-4 text-sm transition-all duration-200 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none ${selectStyle}`}
+          className={`w-full appearance-none rounded-xl border px-4 py-2.5 text-sm transition-all duration-200 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none ${selectStyle}`}
         >
           <option value="">All</option>
 
