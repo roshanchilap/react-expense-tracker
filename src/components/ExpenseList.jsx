@@ -1,7 +1,7 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useExpenseStore } from "../store/expenseStore";
 import { EXPENSE_CATEGORIES } from "../constants/categories";
-import { generatePDF } from "../utils/generatePDF";
+import { generatePDF } from "../utils/generatePdf";
 import { getFilteredExpenseList } from "../utils/filterExpenses";
 
 const ExpenseList = () => {
