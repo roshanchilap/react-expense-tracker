@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import SortExpense from "./SortExpense";
 import { Moon, Sun } from "lucide-react";
 import ExpenseChart from "./ExpenseChart";
+import { generatePDF } from "../utils/generatePDF";
+import { getFilteredExpenseList } from "../utils/filterExpenses";
 
 const Header = () => {
   const expenseList = useExpenseStore((state) => state.expenseList);
@@ -18,6 +20,15 @@ const Header = () => {
   const theme = useExpenseStore((state) => state.theme);
   const toggleTheme = useExpenseStore((state) => state.toggleTheme);
   const openExpenseModal = useExpenseStore((state) => state.openExpenseModal);
+
+  const searchTerm = useExpenseStore((state) => state.searchTerm);
+  const categoryFilter = useExpenseStore((state) => state.categoryFilter);
+
+  const filteredExpenseList = getFilteredExpenseList(
+    expenseList,
+    searchTerm,
+    categoryFilter
+  );
 
   const isDark = theme === "dark";
 
@@ -54,9 +65,11 @@ const Header = () => {
   }, [modalType]);
 
   return (
-    <div className={`relative z-10 min-h-screen w-full space-y-8 ${pageText}`}>
+    <div
+      className={`relative z-10 min-h-screen w-full space-y-8 px-4 sm:px-6 lg:px-8 ${pageText}`}
+    >
       {/* ✅ THEME TOGGLE */}
-      <div className="absolute top-0 right-0">
+      <div className="absolute top-4 right-4">
         <button
           onClick={toggleTheme}
           className={`rounded-xl border p-3 transition-all hover:text-cyan-400 ${themeBtn}`}
@@ -67,12 +80,14 @@ const Header = () => {
 
       {/* ✅ HEADER */}
       <div className="space-y-4 text-center">
-        <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-500/20 bg-cyan-500/10 shadow-inner">
+        <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-500/20 bg-cyan-500/10 shadow-inner">
           <span className="text-3xl">💰</span>
         </div>
 
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">Expense Tracker</h1>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Expense Tracker
+          </h1>
 
           <p className={`mt-1 text-sm ${subText}`}>
             Track your daily spending easily
@@ -95,18 +110,16 @@ const Header = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* backdrop */}
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm dark:bg-black/60"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm dark:bg-black/60"
             onClick={closeModal}
           />
 
           {/* modal */}
-          <div className="relative z-10 w-full max-w-lg px-4">
+          <div className="relative z-10 w-full max-w-lg">
             {modalType === "expense" && <AddExpenseForm />}
 
             {modalType === "delete" && (
-              <div
-                className={`rounded-3xl p-6 shadow-2xl backdrop-blur-xl ${modalCard}`}
-              >
+              <div className={`rounded-3xl p-6 shadow-2xl ${modalCard}`}>
                 <h2 className="text-xl font-semibold">Delete Expense</h2>
 
                 <p className={`mt-2 text-sm ${subText}`}>
@@ -139,7 +152,7 @@ const Header = () => {
 
       {/* ✅ TOTAL CARD */}
       <div
-        className={`sticky top-4 z-10 flex items-center justify-between rounded-2xl px-6 py-5 shadow-lg transition-all duration-300 ${
+        className={`sticky top-4 z-10 flex items-center justify-between rounded-2xl px-6 py-5 shadow-lg ${
           isDark
             ? "border border-slate-700 bg-linear-to-r from-slate-800 via-slate-800 to-slate-700 text-white"
             : "border border-slate-200 bg-linear-to-r from-white to-slate-100 text-slate-900"
@@ -159,13 +172,26 @@ const Header = () => {
       </div>
 
       {/* ✅ SEARCH + SORT */}
-      <div className="flex w-full flex-wrap items-center gap-3">
-        <div className="flex-1">
-          <SearchExpense />
-        </div>
+      <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-md backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/80">
+        <div className="flex flex-col gap-4">
+          {/* ROW 1 (Search only) */}
+          <div className="w-full">
+            <SearchExpense />
+          </div>
 
-        <div className="w-44">
-          <SortExpense />
+          {/* ROW 2 (Sort + Export in same row) */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="w-full sm:w-auto sm:min-w-35">
+              <SortExpense />
+            </div>
+
+            <button
+              onClick={() => generatePDF(filteredExpenseList)}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-500 bg-cyan-100 px-4 py-2 text-sm font-semibold text-cyan-700 shadow-sm transition-all duration-200 hover:bg-cyan-500 hover:text-white hover:shadow-md focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:outline-none sm:w-auto dark:border-cyan-400 dark:bg-transparent dark:text-cyan-300 dark:hover:bg-cyan-500"
+            >
+              Export PDF
+            </button>
+          </div>
         </div>
       </div>
 

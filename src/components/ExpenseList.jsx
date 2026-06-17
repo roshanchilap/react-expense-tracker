@@ -1,6 +1,8 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useExpenseStore } from "../store/expenseStore";
 import { EXPENSE_CATEGORIES } from "../constants/categories";
+import { generatePDF } from "../utils/generatePDF";
+import { getFilteredExpenseList } from "../utils/filterExpenses";
 
 const ExpenseList = () => {
   const expenseList = useExpenseStore((state) => state.expenseList);
@@ -34,17 +36,11 @@ const ExpenseList = () => {
   const borderColor = isDark ? "border-slate-800/70" : "border-slate-200";
   const headerBorder = isDark ? "border-slate-700/40" : "border-slate-200";
 
-  // ✅ FILTER
-  const filteredExpenseList = expenseList.filter((e) => {
-    const matchesSearch = e.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-
-    const matchesCategory =
-      categoryFilter === "" || e.category === categoryFilter;
-
-    return matchesCategory && matchesSearch;
-  });
+  const filteredExpenseList = getFilteredExpenseList(
+    expenseList,
+    searchTerm,
+    categoryFilter
+  );
 
   // ✅ SORT
   const sortedExpenseList = [...filteredExpenseList].sort((a, b) => {
