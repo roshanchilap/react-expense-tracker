@@ -24,6 +24,7 @@ export const generatePDF = (expenseList) => {
       new Date(expense.date).toLocaleDateString("en-IN"),
     ]);
 
+    //Autotable
     autoTable(doc, {
       startY: 35,
       head: [["Name", "Category", "Amount", "Date"]],
